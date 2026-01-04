@@ -1,0 +1,29 @@
+name: stealth-apk-forge-v10
+on: [push, workflow_dispatch]
+jobs:
+  forge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Deps
+        run: |
+          npm install puppeteer-extra puppeteer-extra-plugin-stealth @capacitor/core @capacitor/cli @capacitor/android
+          npx puppeteer browsers install chrome
+      - name: Scrape
+        run: node scraper.js
+        env:
+          AI_URL: ${{ secrets.AI_URL }}
+          SESSION_COOKIES: ${{ secrets.SESSION_COOKIES }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+      - name: Build APK
+        run: node convert-to-apk.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
