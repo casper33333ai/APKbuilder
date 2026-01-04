@@ -1,9 +1,10 @@
 {
   "name": "apkbuilder",
-  "version": "1.0.0",
-  "private": true,
+  "version": "14.0.0",
+  "scripts": {
+    "build": "node convert-to-apk.js"
+  },
   "dependencies": {
-    "puppeteer": "^22.0.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "@capacitor/android": "^6.0.0",
